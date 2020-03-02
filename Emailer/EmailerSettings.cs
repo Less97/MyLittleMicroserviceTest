@@ -16,6 +16,9 @@ namespace Emailer
             public String Url { get; set; }
             public String Username { get; set; }
             public String Password { get; set; }
+            public String vHost { get; set; }
+
+            public Int32 Port { get; set; }
         }
 
     }

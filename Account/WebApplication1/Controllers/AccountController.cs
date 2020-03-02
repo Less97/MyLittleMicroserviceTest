@@ -17,10 +17,12 @@ namespace WebApplication1.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
 
         public IActionResult ForgotPassword()
         {

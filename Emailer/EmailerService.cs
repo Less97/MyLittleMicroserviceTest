@@ -25,13 +25,18 @@ namespace Emailer
         {
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                cfg.Host(_settings.RabbitSettings.Url, host =>
+                cfg.Host(_settings.RabbitSettings.Url,(ushort)_settings.RabbitSettings.Port,_settings.RabbitSettings.vHost,"connection", host =>
                 {
                     host.Username(_settings.RabbitSettings.Username);
                     host.Password(_settings.RabbitSettings.Password);
                 });
-            }); 
+                cfg.ReceiveEndpoint("sendemailqueue", e =>
+                {
+                    e.Consumer<SendEmailConsumer>();
+                });
+            });
             await busControl.StartAsync();
+
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
@@ -39,6 +44,6 @@ namespace Emailer
             throw new NotImplementedException();
         }
 
-      
+
     }
 }
