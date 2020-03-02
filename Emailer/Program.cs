@@ -29,10 +29,8 @@ namespace Emailer
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                   
-                    services.AddSingleton<IConfiguration>(Configuration);
+                    services.Configure<EmailerSettings>(Configuration.GetSection("EmailerSettings"));
                     services.AddHostedService<EmailerService>();
-                    services.Configure<EmailerSettings>(Configuration.GetSection("Emailer"));
                 })
                 .ConfigureLogging((logging) =>
                 {

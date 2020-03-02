@@ -9,9 +9,9 @@ namespace Emailer
 {
     public class EmailerSettings 
     {
-        public RabbitSettings Rabbit { get; set; }
+        public Rabbit RabbitSettings { get; set; }
 
-        public class RabbitSettings
+        public class Rabbit
         {
             public String Url { get; set; }
             public String Username { get; set; }

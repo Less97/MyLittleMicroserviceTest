@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MassTransit;
+using Microsoft.Extensions.Options;
+using SharedLibrary;
 
 namespace Emailer
 {
@@ -12,15 +15,23 @@ namespace Emailer
     {
         private EmailerSettings _settings;
 
-        public EmailerService(EmailerSettings settings)
+        public EmailerService(IOptions<EmailerSettings> settings)
         {
-            _settings = settings;
+            _settings = settings.Value;
         }
 
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
+            {
+                cfg.Host(_settings.RabbitSettings.Url, host =>
+                {
+                    host.Username(_settings.RabbitSettings.Username);
+                    host.Password(_settings.RabbitSettings.Password);
+                });
+            }); 
+            await busControl.StartAsync();
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
