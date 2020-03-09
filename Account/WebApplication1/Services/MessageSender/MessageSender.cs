@@ -20,7 +20,7 @@ namespace AccountService.Services.MessageSender
 
         public Task<bool> SendMessageAsync()
         {
-            return new Task<Boolean>(() => true );
+            return Task.FromResult(true);
         }
     }
 }

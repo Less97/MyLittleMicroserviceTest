@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AccountService.Services;
 using AccountService.Services.MessageSender;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
