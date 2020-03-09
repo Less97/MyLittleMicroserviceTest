@@ -29,6 +29,14 @@ namespace WebApplication1
             services.AddControllersWithViews();
             services.AddSingleton<IMessageSender, MessageSender>();
             services.Configure<RabbitSettings>(Configuration.GetSection("rabbitSettings"));
+
+            IBusControl CreateBus(IServiceProvider serviceProvider)
+            {
+                return Bus.Factory.CreateUsingRabbitMq(sbc =>
+                {
+
+                });
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

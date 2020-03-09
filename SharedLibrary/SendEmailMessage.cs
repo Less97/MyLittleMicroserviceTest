@@ -6,7 +6,7 @@ namespace SharedLibrary
     {
         public String To { get; set; }
         public String From { get; set; }
-        public String Subkect { get; set; }
+        public String Subject { get; set; }
         public String Body { get; set; }
     }
 }
