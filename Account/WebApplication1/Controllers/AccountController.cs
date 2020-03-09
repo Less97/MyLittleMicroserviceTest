@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AccountService.Models;
+using AccountService.Services;
+using AccountService.Services.MessageSender;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -12,10 +14,12 @@ namespace WebApplication1.Controllers
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
+        private readonly IMessageSender _sender;
 
-        public AccountController(ILogger<AccountController> logger)
+        public AccountController(ILogger<AccountController> logger, IMessageSender sender)
         {
             _logger = logger;
+            _sender = sender;
         }
 
         [HttpGet]

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AccountService.Services;
+using AccountService.Services.MessageSender;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +26,8 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSingleton<IMessageSender, MessageSender>();
+            services.Configure<RabbitSettings>(Configuration.GetSection("rabbitSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
