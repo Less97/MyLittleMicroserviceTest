@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AccountService.Services;
 using AccountService.Services.MessageSender;
 using MassTransit;
+using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,15 +30,12 @@ namespace WebApplication1
             services.AddControllersWithViews();
             services.AddSingleton<IMessageSender, MessageSender>();
             services.Configure<RabbitSettings>(Configuration.GetSection("rabbitSettings"));
-
-            IBusControl CreateBus(IServiceProvider serviceProvider)
-            {
-                return Bus.Factory.CreateUsingRabbitMq(sbc =>
-                {
-
-                });
-            }
+            services.AddMassTransit();
         }
+
+        
+
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
