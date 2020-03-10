@@ -14,16 +14,18 @@ namespace AccountService.Services.MessageSender
     public class MessageSender : IMessageSender
     {
         private RabbitSettings _rabbitSettings;
-        private ISendEndpoint _messageEndpoint;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
+        
 
-        public MessageSender(IOptions<RabbitSettings> rabbitSettings)
+        public MessageSender(IOptions<RabbitSettings> rabbitSettings, ISendEndpointProvider sendEndpointProvider)
         {
             _rabbitSettings = rabbitSettings.Value;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
         public async Task<bool> SendMessageAsync()
         {
-            await _messageEndpoint.Send<SendEmailMessage>(new SendEmailMessage()
+            await _sendEndpointProvider.Send<SendEmailMessage>(new SendEmailMessage()
             {
                 To="",
                 Body="",

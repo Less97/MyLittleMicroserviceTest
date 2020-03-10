@@ -30,7 +30,9 @@ namespace WebApplication1
             services.AddControllersWithViews();
             services.AddSingleton<IMessageSender, MessageSender>();
             services.Configure<RabbitSettings>(Configuration.GetSection("rabbitSettings"));
-            services.AddMassTransit();
+            services.AddMassTransit(x =>
+            {
+            });
         }
 
         
