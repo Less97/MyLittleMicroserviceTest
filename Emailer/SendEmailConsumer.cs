@@ -11,7 +11,10 @@ namespace Emailer
     {
         public Task Consume(ConsumeContext<SendEmailMessage> context)
         {
-            return Task.Run(() => { Console.WriteLine("Sending email"); });
+            return Task.Run(() =>
+            {
+                Console.WriteLine("Sending email");
+            });
         }
     }
 }

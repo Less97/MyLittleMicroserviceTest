@@ -7,6 +7,6 @@ namespace AccountService.Services.MessageSender
 {
     public interface IMessageSender
     {
-        Task<Boolean> SendMessageAsync();
+        Task<Boolean> SendMessageAsync(String email);
     }
 }

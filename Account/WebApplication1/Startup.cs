@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedLibrary;
 
 namespace WebApplication1
 {
@@ -30,9 +31,24 @@ namespace WebApplication1
             services.AddControllersWithViews();
             services.AddSingleton<IMessageSender, MessageSender>();
             services.Configure<RabbitSettings>(Configuration.GetSection("rabbitSettings"));
-            services.AddMassTransit(x =>
-            {
+            services.AddMassTransit(x => { 
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                    {
+                        var settings = Configuration.GetSection("rabbitSettings").Get<RabbitSettings>();
+                        //cfg.Host(settings.Url, host =>
+                        //{
+                        //    host.Username(settings.Username);
+                        //    host.Password(settings.Password);
+                        //});
+                        cfg.Host(settings.Url, (ushort)settings.Port, settings.vHost, "connection", host =>
+                        {
+                            host.Username(settings.Username);
+                            host.Password(settings.Password);
+                        });
+                    })
+                );
             });
+            services.AddLogging();
         }
 
         

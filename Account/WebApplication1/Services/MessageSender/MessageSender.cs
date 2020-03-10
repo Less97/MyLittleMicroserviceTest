@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.CodeAnalysis.Options;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.Web.CodeGeneration.Utils.Messaging;
 using SharedLibrary;
@@ -13,26 +14,35 @@ namespace AccountService.Services.MessageSender
 {
     public class MessageSender : IMessageSender
     {
-        private RabbitSettings _rabbitSettings;
-        private readonly ISendEndpointProvider _sendEndpointProvider;
+        private readonly IBus _bus;
+        private readonly ILogger _logger;
         
 
-        public MessageSender(IOptions<RabbitSettings> rabbitSettings, ISendEndpointProvider sendEndpointProvider)
+        public MessageSender(IBus bus,ILogger logger)
         {
-            _rabbitSettings = rabbitSettings.Value;
-            _sendEndpointProvider = sendEndpointProvider;
+            _bus = bus;
+            _logger = logger;
         }
 
-        public async Task<bool> SendMessageAsync()
+        public async Task<bool> SendMessageAsync(String email)
         {
-            await _sendEndpointProvider.Send<SendEmailMessage>(new SendEmailMessage()
+            try
             {
-                To="",
-                Body="",
-                From="",
-                Subject =""
-            });
-            return true;
+                var endpoint = await _bus.GetSendEndpoint(new Uri("rabbitmq://localhost/sendemailqueue"));
+                await endpoint.Send<SendEmailMessage>(new SendEmailMessage()
+                {
+                    To = "email",
+                    Body = "Please click on the following link to restore your password",
+                    From = "noreply@mysitetest.com",
+                    Subject = "Forgot email"
+                });
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error" + ex.Message);
+                return false;
+            }
         }
     }
 }

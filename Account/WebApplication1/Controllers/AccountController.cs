@@ -44,7 +44,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                ViewBag.IsValid = true;
+                _sender.SendMessageAsync(password.Email);
             }
             return View(password);
         }
