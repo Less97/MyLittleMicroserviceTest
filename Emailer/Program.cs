@@ -16,6 +16,7 @@ namespace Emailer
         static async Task Main(string[] args)
         {
             await CreateHostBuilder(args).Build().RunAsync();
+            Console.WriteLine("Waiting to send emails.");
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -37,5 +38,5 @@ namespace Emailer
                     logging.ClearProviders();
                     logging.AddConsole();
                 });
-    }
+         }
 }

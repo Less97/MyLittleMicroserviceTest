@@ -18,9 +18,10 @@ namespace WebApplication1
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging(logBuilder =>
+                .ConfigureLogging(logging =>
                 {
-                    logBuilder.AddConsole();
+                    logging.ClearProviders();
+                    logging.AddConsole();
                 })
                 .ConfigureAppConfiguration((hostingContext, config) => { config.AddJsonFile("appsettings.json"); })
                 .ConfigureWebHostDefaults(webBuilder =>

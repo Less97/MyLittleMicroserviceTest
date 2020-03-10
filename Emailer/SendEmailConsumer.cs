@@ -13,7 +13,11 @@ namespace Emailer
         {
             return Task.Run(() =>
             {
-                Console.WriteLine("Sending email");
+                var message = context.Message;
+                Console.WriteLine($"To:{message.To}");
+                Console.WriteLine($"From:{message.From}");
+                Console.WriteLine($"Subject:{message.Subject}");
+                Console.WriteLine($"Body:{message.Body} {Environment.NewLine}<!------------------------------------!>");
             });
         }
     }

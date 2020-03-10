@@ -35,11 +35,6 @@ namespace WebApplication1
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                     {
                         var settings = Configuration.GetSection("rabbitSettings").Get<RabbitSettings>();
-                        //cfg.Host(settings.Url, host =>
-                        //{
-                        //    host.Username(settings.Username);
-                        //    host.Password(settings.Password);
-                        //});
                         cfg.Host(settings.Url, (ushort)settings.Port, settings.vHost, "connection", host =>
                         {
                             host.Username(settings.Username);
@@ -48,7 +43,6 @@ namespace WebApplication1
                     })
                 );
             });
-            services.AddLogging();
         }
 
         

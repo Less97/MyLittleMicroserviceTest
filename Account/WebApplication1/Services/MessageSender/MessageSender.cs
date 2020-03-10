@@ -18,7 +18,7 @@ namespace AccountService.Services.MessageSender
         private readonly ILogger _logger;
         
 
-        public MessageSender(IBus bus,ILogger logger)
+        public MessageSender(IBus bus, ILogger<MessageSender> logger)
         {
             _bus = bus;
             _logger = logger;
@@ -31,7 +31,7 @@ namespace AccountService.Services.MessageSender
                 var endpoint = await _bus.GetSendEndpoint(new Uri("rabbitmq://localhost/sendemailqueue"));
                 await endpoint.Send<SendEmailMessage>(new SendEmailMessage()
                 {
-                    To = "email",
+                    To = email,
                     Body = "Please click on the following link to restore your password",
                     From = "noreply@mysitetest.com",
                     Subject = "Forgot email"
